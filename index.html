@@ -505,7 +505,199 @@
       </p>
     </div>
   </footer>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banner de descarga</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f0f0;
+      min-height: 100vh;
+    }
+
+    #download-banner {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      max-width: 380px;
+      width: calc(100% - 40px);
+      background: #ffffff;
+      color: #1a1a1a;
+      border-radius: 14px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(-25px);
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      border: 1px solid #e8e8e8;
+    }
+
+    #download-banner.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .banner-image {
+      flex-shrink: 0;
+      width: 58px;
+      height: 72px;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    }
+
+    .banner-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .banner-text {
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .banner-text .time {
+      color: #555;
+      font-size: 13px;
+    }
+
+    .banner-text strong {
+      font-weight: 600;
+      color: #2e7d32;
+    }
+
+    .banner-text .country {
+      color: #555;
+      font-size: 13px;
+    }
+
+    @media (max-width: 480px) {
+      #download-banner {
+        top: 12px;
+        right: 12px;
+        left: 12px;
+        max-width: none;
+        width: auto;
+        padding: 11px 14px;
+      }
+
+      .banner-image {
+        width: 50px;
+        height: 62px;
+      }
+
+      .banner-text {
+        font-size: 13.5px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="download-banner">
+    <div class="banner-image">
+      <img src="https://i.imgur.com/jGF5Cw1.png" alt="400 Recetas para Diabéticos">
+    </div>
+    <div class="banner-text">
+      <span class="time">Hace <span id="minutes"></span> minutos</span><br>
+      <strong id="person-name">--</strong> de <span id="country" class="country">--</span><br>
+      Descargó el Recetario
+    </div>
+  </div>
+
+  <script>
+    const nombres = [
+      "María", "Juan", "Ana", "Carlos", "Laura", "Pedro",
+      "Sofía", "Diego", "Valentina", "Andrés", "Camila", "Mateo",
+      "Isabella", "Santiago", "Lucía", "Gabriel", "Martina", "Nicolás",
+      "Emma", "Daniel", "Paula", "Alejandro", "Julieta", "Tomás",
+      "Fernanda", "Ricardo", "Catalina", "Sebastián", "Valeria", "Luis"
+    ];
+
+    const paises = [
+      "México", "Argentina", "Colombia", "Perú", "Chile", "Ecuador",
+      "Venezuela", "Bolivia", "Uruguay", "Paraguay", "Costa Rica",
+      "Panamá", "Guatemala", "Honduras", "El Salvador", "Nicaragua",
+      "República Dominicana", "Cuba", "Puerto Rico", "Brasil",
+      "Estados Unidos", "Canadá", "Jamaica", "Trinidad y Tobago"
+    ];
+
+    const minutosPosibles = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+
+    const banner = document.getElementById('download-banner');
+    const nameElement = document.getElementById('person-name');
+    const minutesElement = document.getElementById('minutes');
+    const countryElement = document.getElementById('country');
+
+    let indexNombre = 0;
+    let ultimoMinuto = null;
+    let ultimoPais = null;
+
+    function obtenerMinutos() {
+      let minutos;
+      do {
+        minutos = minutosPosibles[Math.floor(Math.random() * minutosPosibles.length)];
+      } while (minutos === ultimoMinuto);
+      ultimoMinuto = minutos;
+      return minutos;
+    }
+
+    function obtenerPais() {
+      let pais;
+      do {
+        pais = paises[Math.floor(Math.random() * paises.length)];
+      } while (pais === ultimoPais);
+      ultimoPais = pais;
+      return pais;
+    }
+
+    function mostrarBanner() {
+      // Actualizar nombre
+      nameElement.textContent = nombres[indexNombre];
+      indexNombre = (indexNombre + 1) % nombres.length;
+
+      // Actualizar minutos (siempre diferentes)
+      minutesElement.textContent = obtenerMinutos();
+
+      // Actualizar país
+      countryElement.textContent = obtenerPais();
+
+      // Mostrar banner
+      banner.classList.add('show');
+
+      // Ocultar después de 4.2 segundos
+      setTimeout(() => {
+        banner.classList.remove('show');
+      }, 4200);
+    }
+
+    // Primera aparición
+    setTimeout(mostrarBanner, 1200);
+
+    // Se repite cada 5 segundos
+    setInterval(mostrarBanner, 5000);
+  </script>
+
+</body>
+</html>
+  
 
 </body>
 </html>
